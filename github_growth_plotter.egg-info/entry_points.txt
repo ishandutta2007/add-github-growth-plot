@@ -1,0 +1,2 @@
+[console_scripts]
+github-growth-plot = github_growth_plotter.cli:main

@@ -1,0 +1,11 @@
+LICENSE
+README.md
+setup.py
+github_growth_plotter/__init__.py
+github_growth_plotter/cli.py
+github_growth_plotter.egg-info/PKG-INFO
+github_growth_plotter.egg-info/SOURCES.txt
+github_growth_plotter.egg-info/dependency_links.txt
+github_growth_plotter.egg-info/entry_points.txt
+github_growth_plotter.egg-info/requires.txt
+github_growth_plotter.egg-info/top_level.txt

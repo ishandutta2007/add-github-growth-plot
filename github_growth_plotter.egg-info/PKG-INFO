@@ -1,3 +1,25 @@
+Metadata-Version: 2.4
+Name: github-growth-plotter
+Version: 0.1.0
+Summary: A tool to fetch GitHub stargazers and plot growth over time.
+Author: Open Source Maintainers
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests
+Requires-Dist: matplotlib
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
 <div align="center">
   <img src="./assets/banner.svg" alt="GitHub Stargazers Growth Plotter Banner" width="100%">
 </div>
@@ -33,11 +55,11 @@
    gh auth login
    ```
 3. **Installation**:
-   Install the tool via PyPI:
+   Install the tool locally via pip:
    ```bash
-   pip install github-growth-plotter
+   pip install .
    ```
-   *(To install from source locally, clone the repo and run `pip install .`)*
+   *(Or install directly from PyPI if published: `pip install github-growth-plotter`)*
 
 ## 🚀 Usage Guide
 
