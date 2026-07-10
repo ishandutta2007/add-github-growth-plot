@@ -116,6 +116,21 @@ def plot_growth(stargazers, filename, repo):
     plt.savefig(filename)
     print(f"Saved growth plot to {filename}")
 
+def update_gitignore(filename):
+    if os.path.exists('.gitignore'):
+        with open('.gitignore', 'r', encoding='utf-8') as f:
+            content = f.read()
+            if filename in content.splitlines():
+                return
+        with open('.gitignore', 'a', encoding='utf-8') as f:
+            if content and not content.endswith('\n'):
+                f.write('\n')
+            f.write(f"{filename}\n")
+    else:
+        with open('.gitignore', 'w', encoding='utf-8') as f:
+            f.write(f"{filename}\n")
+    print(f"Added {filename} to .gitignore")
+
 def main():
     parser = argparse.ArgumentParser(description="Fetch stargazers and plot growth.")
     parser.add_argument("repo", nargs="?", help="GitHub repository in owner/repo format. If not provided, uses the current repository.")
@@ -135,9 +150,12 @@ def main():
         
     safe_repo_name = repo.replace('/', '_')
     csv_filename = f"{safe_repo_name}_stargazers.csv"
-    plot_filename = f"{safe_repo_name}_growth.png"
+    
+    os.makedirs("assets", exist_ok=True)
+    plot_filename = os.path.join("assets", f"{safe_repo_name}_growth.png")
     
     save_to_csv(stargazers, csv_filename)
+    update_gitignore(csv_filename)
     plot_growth(stargazers, plot_filename, repo)
 
 if __name__ == "__main__":
