@@ -131,9 +131,33 @@ def update_gitignore(filename):
             f.write(f"{filename}\n")
     print(f"Added {filename} to .gitignore")
 
+def publish_to_readme(plot_filename, repo):
+    readme_path = "README.md"
+    basename = os.path.basename(plot_filename)
+    img_path = f"./assets/{basename}"
+    
+    html_snippet = f'\n<p align="center">\n  <img src="{img_path}" alt="{repo}" width="100%" />\n</p>\n'
+    
+    if os.path.exists(readme_path):
+        with open(readme_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        if basename not in content:
+            with open(readme_path, 'a', encoding='utf-8') as f:
+                if content and not content.endswith('\n'):
+                    f.write('\n')
+                f.write(html_snippet)
+            print(f"Published plot to {readme_path}")
+        else:
+            print(f"Plot already seems to be published in {readme_path}")
+    else:
+        with open(readme_path, 'w', encoding='utf-8') as f:
+            f.write(html_snippet.lstrip())
+        print(f"Created {readme_path} and published plot")
+
 def main():
     parser = argparse.ArgumentParser(description="Fetch stargazers and plot growth.")
     parser.add_argument("repo", nargs="?", help="GitHub repository in owner/repo format. If not provided, uses the current repository.")
+    parser.add_argument("--publish", action="store_true", help="Auto publish the plot to the current README.md")
     args = parser.parse_args()
     
     repo = args.repo
@@ -152,11 +176,14 @@ def main():
     csv_filename = f"{safe_repo_name}_stargazers.csv"
     
     os.makedirs("assets", exist_ok=True)
-    plot_filename = os.path.join("assets", f"{safe_repo_name}_growth.png")
+    plot_filename = os.path.join("assets", f"{safe_repo_name}_growth.svg")
     
     save_to_csv(stargazers, csv_filename)
     update_gitignore(csv_filename)
     plot_growth(stargazers, plot_filename, repo)
+    
+    if args.publish:
+        publish_to_readme(plot_filename, repo)
 
 if __name__ == "__main__":
     main()
