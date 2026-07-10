@@ -32,31 +32,32 @@
    ```bash
    gh auth login
    ```
-3. **Python Dependencies**:
+3. **Installation**:
+   Install the tool locally via pip:
    ```bash
-   pip install -r requirements.txt
+   pip install .
    ```
-   *(This will install `requests` and `matplotlib`)*
+   *(Or install directly from PyPI if published: `pip install github-growth-plotter`)*
 
 ## 🚀 Usage Guide
 
 ### 1️⃣ Run for the current repository
 If you are already inside a Git repository folder, you can simply run:
 ```bash
-python plot_stargazers.py
+github-growth-plot
 ```
 This detects the repository, downloads the stargazers to a CSV, and outputs the SVG plot in the `assets/` directory.
 
 ### 2️⃣ Run for a specific repository
 You can specify any repository using the standard `owner/repo` format:
 ```bash
-python plot_stargazers.py "google/jax"
+github-growth-plot "google/jax"
 ```
 
 ### 3️⃣ Auto-publish to README
 Want to display the chart on your project's main page? Pass the `--publish` flag:
 ```bash
-python plot_stargazers.py --publish
+github-growth-plot --publish
 ```
 This automatically appends the following HTML snippet to the bottom of your `README.md`:
 ```html
