@@ -113,16 +113,24 @@ def plot_growth(stargazers, filename, repo):
     else:
         span_days = 0
         
-    if span_days >= 365:
+    if span_days >= 730: # 2+ years, safe to use Year granularity without repeats
+        interval = max(1, int(span_days / 365 / 6))
+        locator = mdates.YearLocator(base=interval)
         xlabel_text = "Years"
         fmt = "%Y"
-    elif span_days >= 30:
+    elif span_days >= 60: # 2+ months
+        interval = max(1, int(span_days / 30 / 6))
+        locator = mdates.MonthLocator(interval=interval)
         xlabel_text = "Months"
-        fmt = "%b %Y"
-    elif span_days >= 7:
+        fmt = "%b, %Y"
+    elif span_days >= 14: # 2+ weeks
+        interval = max(1, int(span_days / 7 / 6))
+        locator = mdates.WeekdayLocator(interval=interval)
         xlabel_text = "Weeks"
         fmt = "Week %W, %Y"
     else:
+        interval = max(1, int(span_days / 6))
+        locator = mdates.DayLocator(interval=interval)
         xlabel_text = "Day with month"
         fmt = "%b %d"
         
@@ -131,7 +139,7 @@ def plot_growth(stargazers, filename, repo):
     
     # Format the x-axis to show dates nicely
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter(fmt))
-    plt.gca().xaxis.set_major_locator(mdates.AutoDateLocator())
+    plt.gca().xaxis.set_major_locator(locator)
     plt.gcf().autofmt_xdate()
     
     # Set font for tick labels
