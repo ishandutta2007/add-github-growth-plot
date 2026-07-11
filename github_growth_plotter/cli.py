@@ -102,14 +102,47 @@ def plot_growth(stargazers, filename, repo):
     plt.figure(figsize=(10, 6))
     plt.plot(dates, counts, marker='', linestyle='-', color='b')
     
-    plt.title(f"Stargazers Growth for {repo}")
-    plt.xlabel("Date")
-    plt.ylabel("Number of Stargazers")
+    vintage_fonts = 'Georgia'
+    cursive_fonts = 'Segoe Script'
+    
+    plt.title("Star history", fontfamily=vintage_fonts, fontsize=16)
+    
+    if len(dates) > 1:
+        time_span = dates[-1] - dates[0]
+        span_days = time_span.days
+    else:
+        span_days = 0
+        
+    if span_days >= 365:
+        xlabel_text = "Years"
+        fmt = "%Y"
+    elif span_days >= 30:
+        xlabel_text = "Months"
+        fmt = "%b %Y"
+    elif span_days >= 7:
+        xlabel_text = "Weeks"
+        fmt = "Week %W, %Y"
+    else:
+        xlabel_text = "Day with month"
+        fmt = "%b %d"
+        
+    plt.xlabel(xlabel_text, fontfamily=cursive_fonts, fontsize=12)
+    plt.ylabel("Github Stars", fontfamily=cursive_fonts, fontsize=12)
     
     # Format the x-axis to show dates nicely
-    plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+    plt.gca().xaxis.set_major_formatter(mdates.DateFormatter(fmt))
     plt.gca().xaxis.set_major_locator(mdates.AutoDateLocator())
     plt.gcf().autofmt_xdate()
+    
+    # Set font for tick labels
+    for label in plt.gca().get_xticklabels() + plt.gca().get_yticklabels():
+        label.set_fontfamily(cursive_fonts)
+    
+    # Add repo name to top left (which is usually empty in cumulative growth plots)
+    plt.text(0.05, 0.95, repo, transform=plt.gca().transAxes, 
+             fontsize=14, fontfamily=cursive_fonts, 
+             verticalalignment='top', horizontalalignment='left',
+             bbox=dict(facecolor='white', alpha=0.8, edgecolor='none'))
     
     plt.grid(True)
     plt.tight_layout()
