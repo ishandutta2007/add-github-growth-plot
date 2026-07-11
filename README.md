@@ -75,3 +75,4 @@ When executed, the script generates and manages the following files:
 
 ---
 *Made with ❤️ for Open Source Maintainers.*
+
