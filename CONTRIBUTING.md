@@ -10,7 +10,7 @@ The project is built as a standard Python package using `setuptools`.
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/add-github-growth-plot.git
+   git clone https://github.com/ishandutta2007/add-github-growth-plot.git
    cd add-github-growth-plot
    ```
 
