@@ -81,10 +81,16 @@ When executed, the script generates and manages the following files:
 - 📄 **`<username>_<reponame>_stargazers.csv`**: Raw historical star data (automatically ignored via `.gitignore`).
 - 🙈 **`.gitignore`**: Updated automatically to ignore the generated CSV file.
 
+## Star History
+
+<a href="https://star-history.com/#ishandutta2007/add-github-growth-plot&Timeline" align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/ishandutta2007_add-github-growth-plot_growth.svg">
+    <img alt="Star History Chart" src="assets/ishandutta2007_add-github-growth-plot_growth.svg">
+  </picture>
+</a>
+
+
 ---
 *Made with ❤️ for Open Source Maintainers.*
 
-
-<p align="center">
-  <img src="./assets/ishandutta2007_add-github-growth-plot_growth.svg" alt="ishandutta2007/add-github-growth-plot" width="100%" />
-</p>
