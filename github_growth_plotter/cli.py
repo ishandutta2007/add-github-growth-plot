@@ -4,9 +4,10 @@ import requests
 import csv
 import os
 import sys
-from datetime import datetime
+from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
+from matplotlib.ticker import MaxNLocator
 
 def get_github_token():
     try:
@@ -74,9 +75,12 @@ def fetch_stargazers(repo, token):
             break
             
         for item in data:
+            user = item["user"]["login"]
+            starred_at = item["starred_at"]
+            print(f"  ⭐ Found star: {user} at {starred_at}")
             stargazers.append({
-                "user": item["user"]["login"],
-                "starred_at": item["starred_at"]
+                "user": user,
+                "starred_at": starred_at
             })
             
         if "next" not in response.links:
@@ -93,11 +97,33 @@ def save_to_csv(stargazers, filename):
             writer.writerow(stargazer)
     print(f"Saved {len(stargazers)} stargazers to {filename}")
 
+def parse_date(date_str):
+    try:
+        return datetime.strptime(date_str, "%Y-%m-%dT%H:%M:%SZ")
+    except ValueError:
+        try:
+            return datetime.fromisoformat(date_str.replace('Z', '+00:00'))
+        except Exception:
+            return datetime.strptime(date_str[:19], "%Y-%m-%dT%H:%M:%S")
+
 def plot_growth(stargazers, filename, repo):
-    dates = [datetime.strptime(s["starred_at"], "%Y-%m-%dT%H:%M:%SZ") for s in stargazers]
-    dates.sort()
-    
+    parsed = []
+    print(f"\n--- Stargazer Dates (Total: {len(stargazers)}) ---")
+    for s in stargazers:
+        d = parse_date(s["starred_at"])
+        parsed.append((d, s["user"], s["starred_at"]))
+        print(f"User: {s['user']} | Starred At: {s['starred_at']} -> Parsed: {d.strftime('%Y-%m-%d %H:%M:%S UTC')}")
+    print("--------------------------------------------------\n")
+
+    parsed.sort(key=lambda x: x[0])
+    dates = [p[0] for p in parsed]
     counts = list(range(1, len(dates) + 1))
+    
+    # Extend plot to today's date so the curve reflects current star count up to today
+    now = datetime.now()
+    if dates and now > dates[-1]:
+        dates.append(now)
+        counts.append(counts[-1])
     
     plt.figure(figsize=(10, 6))
     plt.plot(dates, counts, marker='', linestyle='-', color='b')
@@ -107,35 +133,45 @@ def plot_growth(stargazers, filename, repo):
     
     plt.title("Star history", fontfamily=vintage_fonts, fontsize=16)
     
-    if len(dates) > 1:
-        time_span = dates[-1] - dates[0]
-        span_days = time_span.days
-    else:
-        span_days = 0
+    time_span = dates[-1] - dates[0] if len(dates) > 1 else timedelta(0)
+    span_days = time_span.days
+    total_seconds = time_span.total_seconds()
         
-    if span_days >= 730: # 2+ years, safe to use Year granularity without repeats
+    if span_days >= 730:  # 2+ years
         interval = max(1, int(span_days / 365 / 6))
         locator = mdates.YearLocator(base=interval)
         xlabel_text = "Years"
         fmt = "%Y"
-    elif span_days >= 60: # 2+ months
+    elif span_days >= 60:  # 2+ months
         interval = max(1, int(span_days / 30 / 6))
         locator = mdates.MonthLocator(interval=interval)
         xlabel_text = "Months"
         fmt = "%b, %Y"
-    elif span_days >= 14: # 2+ weeks
+    elif span_days >= 14:  # 2+ weeks
         interval = max(1, int(span_days / 7 / 6))
         locator = mdates.WeekdayLocator(interval=interval)
         xlabel_text = "Weeks"
         fmt = "Week %W, %Y"
-    else:
+    elif span_days >= 2:  # 2+ days
         interval = max(1, int(span_days / 6))
         locator = mdates.DayLocator(interval=interval)
         xlabel_text = "Day with month"
         fmt = "%b %d"
+    elif total_seconds >= 3600:  # Within 1-2 days, span across hours
+        interval = max(1, int(total_seconds / 3600 / 6))
+        locator = mdates.HourLocator(interval=interval)
+        xlabel_text = f"Time ({dates[0].strftime('%b %d, %Y')})" if dates[0].date() == dates[-1].date() else "Date & Time"
+        fmt = "%H:%M" if dates[0].date() == dates[-1].date() else "%b %d %H:%M"
+    else:  # Very short time or same minute
+        locator = mdates.AutoDateLocator()
+        xlabel_text = f"Time ({dates[0].strftime('%b %d, %Y')})"
+        fmt = "%H:%M:%S"
         
     plt.xlabel(xlabel_text, fontfamily=cursive_fonts, fontsize=12)
     plt.ylabel("Github Stars", fontfamily=cursive_fonts, fontsize=12)
+    
+    # Ensure Y-axis only uses integer counts
+    plt.gca().yaxis.set_major_locator(MaxNLocator(integer=True))
     
     # Format the x-axis to show dates nicely
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter(fmt))
