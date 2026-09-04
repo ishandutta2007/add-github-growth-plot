@@ -175,9 +175,17 @@ def update_gitignore(filename):
 def publish_to_readme(plot_filename, repo):
     readme_path = "README.md"
     basename = os.path.basename(plot_filename)
-    img_path = f"./assets/{basename}"
+    img_path = f"assets/{basename}"
     
-    html_snippet = f'\n<p align="center">\n  <img src="{img_path}" alt="{repo}" width="100%" />\n</p>\n'
+    html_snippet = (
+        f'\n## Star History\n\n'
+        f'<a href="https://star-history.com/#{repo}&Timeline" align="center">\n'
+        f'  <picture>\n'
+        f'    <source media="(prefers-color-scheme: dark)" srcset="{img_path}">\n'
+        f'    <img alt="Star History Chart" src="{img_path}">\n'
+        f'  </picture>\n'
+        f'</a>\n'
+    )
     
     if os.path.exists(readme_path):
         with open(readme_path, 'r', encoding='utf-8') as f:

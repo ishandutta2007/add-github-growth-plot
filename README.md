@@ -63,9 +63,15 @@ github-growth-plot --publish
 ```
 This automatically appends the following HTML snippet to the bottom of your `README.md`:
 ```html
-<p align="center">
-  <img src="./assets/<username>_<reponame>_growth.svg" alt="<owner>/<repo>" width="100%" />
-</p>
+## Star History
+
+<a href="https://star-history.com/#<username>/<reponame>&Timeline" align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/<username>_<reponame>_growth.svg">
+    <img alt="Star History Chart" src="assets/<username>_<reponame>_growth.svg">
+  </picture>
+</a>
+
 ```
 
 ## 📂 Generated Files
