@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="github-growth-plotter",
-    version="0.1.0",
+    version="0.1.1",
     author="Open Source Maintainers",
     description="A tool to fetch GitHub stargazers and plot growth over time.",
     long_description=long_description,
