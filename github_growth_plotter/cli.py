@@ -214,7 +214,7 @@ def publish_to_readme(plot_filename, repo):
     img_path = f"assets/{basename}"
     
     html_snippet = (
-        f'\n## Star History\n\n'
+        f'\n## ⭐ Star History\n\n'
         f'<a href="https://star-history.com/#{repo}&Timeline" align="center">\n'
         f'  <picture>\n'
         f'    <source media="(prefers-color-scheme: dark)" srcset="{img_path}">\n'
