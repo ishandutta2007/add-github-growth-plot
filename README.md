@@ -19,16 +19,25 @@
 
 🚀 **GitHub Stargazers Growth Plotter** is an automated tool that fetches the stargazers history of any GitHub repository, caches it locally, and generates a stunning SVG growth plot. Designed for repository owners, this script can auto-publish charts directly to your `README.md` for maximum visibility and better SEO indexing of project metrics.
 
-## ✨ Features
+---
 
+## 📖 Table of Contents
+- [👤 End Users Guide](#-end-users-guide)
+- [👩‍💻 Developers & Contributors Guide](#-developers--contributors-guide)
+- [🚀 Package Publishers & DevOps Guide](#-package-publishers--devops-guide)
+
+---
+
+## 👤 End Users Guide
+
+### ✨ Features
 - 🔐 **Automated Authentication**: Seamlessly integrates with your active GitHub CLI (`gh`) token. Zero manual token configuration required!
 - 🎯 **Zero-Config Context**: Automatically detects your current repository from your git config if run without arguments.
 - 🗄️ **Local Caching**: Caches historical stargazer data in a CSV file and dynamically appends it to your `.gitignore` to prevent accidental commits.
 - 📊 **High-Quality Plotting**: Renders beautiful, scalable vector `.svg` plots optimized for web display, saving them cleanly in an `assets/` directory.
 - 📝 **Auto-Publishing**: With a simple flag, automatically inject your latest growth chart into your `README.md` within a perfectly centered HTML block.
 
-## 🛠️ Prerequisites
-
+### 🛠️ Prerequisites
 1. **Python 3.x**: Ensure Python is installed on your system.
 2. **GitHub CLI (`gh`)**: You must have the GitHub CLI installed and authenticated.
    ```bash
@@ -39,47 +48,71 @@
    ```bash
    pip install github-growth-plotter
    ```
-   *(To install from source locally, clone the repo and run `pip install .`)*
 
-## 🚀 Usage Guide
-
-### 1️⃣ Run for the current repository
-If you are already inside a Git repository folder, you can simply run:
+### 🚀 Quickstart
+#### 1️⃣ Run for the current repository
 ```bash
 github-growth-plot
 ```
-This detects the repository, downloads the stargazers to a CSV, and outputs the SVG plot in the `assets/` directory.
+Detects the repository, downloads stargazers history to CSV, and outputs the SVG plot in `assets/`.
 
-### 2️⃣ Run for a specific repository
-You can specify any repository using the standard `owner/repo` format:
+#### 2️⃣ Run for a specific repository
 ```bash
 github-growth-plot "google/jax"
 ```
 
-### 3️⃣ Auto-publish to README
-Want to display the chart on your project's main page? Pass the `--publish` flag:
+#### 3️⃣ Auto-publish to README
 ```bash
 github-growth-plot --publish
 ```
-This automatically appends the following HTML snippet to the bottom of your `README.md`:
-```html
-## Star History
 
-<a href="https://star-history.com/#<username>/<reponame>&Timeline" align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/<username>_<reponame>_growth.svg">
-    <img alt="Star History Chart" src="assets/<username>_<reponame>_growth.svg">
-  </picture>
-</a>
+---
 
-```
+## 👩‍💻 Developers & Contributors Guide
+
+For details on local development, repository structure, and guidelines for opening pull requests, please refer to our dedicated **[CONTRIBUTING.md](file:///C:/Users/ishan/Documents/Projects/add-github-growth-plot/CONTRIBUTING.md)** file.
+
+---
+
+## 🚀 Package Publishers & DevOps Guide
+
+### 📦 Automated PyPI Publishing Pipeline
+
+This repository is configured with an automated CI/CD pipeline via GitHub Actions ([`.github/workflows/publish-pypi.yml`](file:///.github/workflows/publish-pypi.yml)).
+
+#### How Automated Releases Work:
+1. **Automatic Trigger on Version Change**:
+   Whenever a push is made to the `main` branch that modifies `pyproject.toml` (or any `*.toml` file), `setup.py`, or `github_growth_plotter/__init__.py`, the publishing workflow runs automatically.
+2. **Tag Trigger**:
+   Pushing git tags matching `v*` (e.g. `v0.1.2`) will also trigger the PyPI deployment.
+3. **Automatic Skip for Existing Versions**:
+   The deployment uses `twine upload --skip-existing dist/*` to prevent pipeline failures if a commit updates `.toml` files without incrementing the version string.
+
+#### Required GitHub Secrets & Setup:
+To enable PyPI publishing for this repository:
+- Navigate to **Settings > Secrets and variables > Actions** in your GitHub repository.
+- Add a new repository secret:
+  - **Name**: `PYPI_API_TOKEN`
+  - **Value**: Your PyPI API Token (starts with `pypi-`).
+
+#### Required Personal Access Token (PAT) Scope:
+If pushing changes to `.github/workflows/` files using a GitHub PAT via CLI/Git, ensure your token includes the **`workflow`** permission scope:
+- **Scope required**: `workflow` (*"Update GitHub Action workflows"*).
+
+#### SaaS Products & API Limits
+
+| SaaS Product | Pricing Model | Free Tier Details / Limits |
+| :--- | :--- | :--- |
+| **GitHub Actions** | Freemium | 2,000 build minutes/month free for public repositories & free accounts. |
+| **PyPI (Python Package Index)** | Free | Free hosting for open source Python packages. |
+| **GitHub API** | Freemium | Free for public/private repos. Unauthenticated: 60 requests/hr. Authenticated (via `gh` CLI): 5,000 requests/hr. |
+
+---
 
 ## 📂 Generated Files
 
-When executed, the script generates and manages the following files:
-- 🖼️ **`assets/<username>_<reponame>_growth.svg`**: The generated vector graph showing star growth over time.
-- 📄 **`<username>_<reponame>_stargazers.csv`**: Raw historical star data (automatically ignored via `.gitignore`).
-- 🙈 **`.gitignore`**: Updated automatically to ignore the generated CSV file.
+- 🖼️ **`assets/<username>_<reponame>_growth.svg`**: Vector graph of star growth.
+- 📄 **`<username>_<reponame>_stargazers.csv`**: Historical star data (ignored by `.gitignore`).
 
 ## Star History
 
@@ -90,7 +123,5 @@ When executed, the script generates and manages the following files:
   </picture>
 </a>
 
-
 ---
 *Made with ❤️ for Open Source Maintainers.*
-

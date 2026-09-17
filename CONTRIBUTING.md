@@ -1,12 +1,30 @@
 # Contributing to GitHub Stargazers Growth Plotter
 
-Thank you for your interest in contributing to **GitHub Stargazers Growth Plotter**! This guide will help you understand the project structure, how to set up your development environment, and the guidelines for submitting your changes.
+Thank you for your interest in contributing to **GitHub Stargazers Growth Plotter**!
+
+This documentation is divided into distinct sections tailored to your role:
+- [👤 End Users](#-end-users)
+- [👩‍💻 Developers & Contributors](#-developers--contributors)
+- [🚀 Package Publishers & DevOps](#-package-publishers--devops)
 
 ---
 
-## 🛠️ Development Setup
+## 👤 End Users
 
-The project is built as a standard Python package using `setuptools`.
+End users can install and execute the CLI tool directly.
+
+```bash
+pip install github-growth-plotter
+github-growth-plot --publish
+```
+
+For full usage commands, see the **[README.md](file:///C:/Users/ishan/Documents/Projects/add-github-growth-plot/README.md#-end-users-guide)**.
+
+---
+
+## 👩‍💻 Developers & Contributors
+
+### 🛠️ Local Development Setup
 
 1. **Clone the repository:**
    ```bash
@@ -14,35 +32,48 @@ The project is built as a standard Python package using `setuptools`.
    cd add-github-growth-plot
    ```
 
-2. **Install locally in editable mode:**
+2. **Install in editable mode:**
    ```bash
    pip install -e .
    ```
-   This will install the package alongside its dependencies (`requests`, `matplotlib`) and link the `github-growth-plot` command directly to your local source code. Any changes you make to `github_growth_plotter/cli.py` will be immediately reflected when you run the command.
+   This links the CLI `github-growth-plot` directly to your local codebase in `github_growth_plotter/cli.py`.
 
-3. **Install Build Tools (Optional, for publishing):**
+3. **Install Build & Testing Tools:**
    ```bash
    pip install build twine
    ```
 
-## 📋 Contribution Guidelines
+### 📋 Pull Request Workflow
 
-1. **Bug Reports & Feature Requests:**
-   * Please check the existing issues to ensure it hasn't already been reported.
-   * Clearly describe the issue or feature, and provide context or steps to reproduce if applicable.
-
-2. **Submitting Pull Requests:**
-   * Branch off from the primary branch.
-   * Keep your commits focused and descriptive (e.g., `feat: add support for enterprise github`, `fix: correct svg scaling`).
-   * Test your changes thoroughly by running `github-growth-plot` locally on a sample repository before submitting.
-   * Push your branch and open a Pull Request!
+1. Create a feature branch off `main`.
+2. Follow clear commit messages (`feat: ...`, `fix: ...`).
+3. If changing package metadata or adding dependencies, update both `pyproject.toml` and `setup.py`.
+4. Run `github-growth-plot` locally to verify changes before submitting your PR.
 
 ---
 
-## 🌐 SaaS Products Pricing Info
+## 🚀 Package Publishers & DevOps
 
-This project relies on the GitHub API to fetch historical stargazer data. Refer to the pricing details and free tier limits below:
+### 📦 Automated PyPI Auto-Publishing
+
+Automated publishing is powered by GitHub Actions ([`.github/workflows/publish-pypi.yml`](file:///C:/Users/ishan/Documents/Projects/add-github-growth-plot/.github/workflows/publish-pypi.yml)).
+
+#### Triggering Auto-Publish on PyPI:
+- **Version Bump in TOML / Setup**:
+  Whenever you increment the version in `pyproject.toml` (or any `*.toml` / `setup.py` / `__init__.py`) and push to `main`, GitHub Actions will build the package and publish it to PyPI automatically.
+- **Git Tag Push**:
+  Pushing a tag such as `git push origin v0.1.2` also triggers automatic PyPI deployment.
+
+#### Required Repository Configuration:
+1. Ensure `PYPI_API_TOKEN` is present in GitHub Secrets (**Settings > Secrets and variables > Actions**).
+2. If pushing workflow changes via PAT, verify your PAT has the **`workflow`** permission scope enabled.
+
+---
+
+## 🌐 SaaS Products & Pricing Info
 
 | SaaS Product | Pricing Model | Free Tier Details / Limits |
 | :--- | :--- | :--- |
-| **GitHub API** | Freemium | Free for public/private repositories. Unauthenticated API: 60 requests/hr. Authenticated API (which this tool uses natively via the `gh` CLI): 5,000 requests/hr. |
+| **GitHub API** | Freemium | Free for public/private repositories. Unauthenticated API: 60 requests/hr. Authenticated API (`gh` CLI): 5,000 requests/hr. |
+| **GitHub Actions** | Freemium | 2,000 free build minutes/month for standard public/private repository accounts. |
+| **PyPI (Python Package Index)** | Free | Free package hosting and distribution. |
