@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "github-growth-plotter"
 version = "0.1.1"
 authors = [
-    { name = "Ishan Dutta" }
+    { name = "Ishan Dutta", email="ishandutta2007@gmail.com" },
 ]
 description = "A tool to fetch GitHub stargazers and plot growth over time."
 readme = "README.md"
