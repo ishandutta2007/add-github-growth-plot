@@ -25,6 +25,7 @@
 - [👤 End Users Guide](#-end-users-guide)
 - [👩‍💻 Developers & Contributors Guide](#-developers--contributors-guide)
 - [🚀 Package Publishers & DevOps Guide](#-package-publishers--devops-guide)
+- [💖 Support](#-support)
 
 ---
 
@@ -106,6 +107,7 @@ If pushing changes to `.github/workflows/` files using a GitHub PAT via CLI/Git,
 | **GitHub Actions** | Freemium | 2,000 build minutes/month free for public repositories & free accounts. |
 | **PyPI (Python Package Index)** | Free | Free hosting for open source Python packages. |
 | **GitHub API** | Freemium | Free for public/private repos. Unauthenticated: 60 requests/hr. Authenticated (via `gh` CLI): 5,000 requests/hr. |
+| **GitHub Sponsors** | Free | 0% platform fee for individual developer sponsorships; 100% of sponsorship reaches maintainer. |
 
 ---
 
@@ -122,6 +124,30 @@ If pushing changes to `.github/workflows/` files using a GitHub PAT via CLI/Git,
     <img alt="Star History Chart" src="assets/ishandutta2007_add-github-growth-plot_growth.svg">
   </picture>
 </a>
+
+---
+
+## 💖 Support
+
+Thank you for using and supporting **GitHub Stargazers Growth Plotter**! Your support keeps this project active, maintained, and continuously improved.
+
+If you find this project valuable, please consider supporting it:
+
+- ⭐ **Star this repository**: Helps more developers discover the tool.
+- 🍴 **Fork & Contribute**: Submit PRs, report bugs, or suggest new features in issues and discussions.
+- 📢 **Share**: Tell your fellow developers, teams, and open source communities.
+- ☕ **Buy me a coffee**: Support ongoing open source work directly via the [GitHub Sponsor Dashboard](https://github.com/sponsors/ishandutta2007).
+
+<div align="center">
+
+<a href="https://github.com/sponsors/ishandutta2007">
+  <img src="https://img.shields.io/badge/Sponsor%20on%20GitHub-ea4aaa?style=for-the-badge&logo=github-sponsors&logoColor=white" alt="Sponsor on GitHub" />
+</a>
+<a href="https://github.com/sponsors/ishandutta2007">
+  <img src="https://img.shields.io/badge/Buy%20Me%20A%20Coffee-%E2%98%95-yellow?style=for-the-badge" alt="Buy Me A Coffee" />
+</a>
+
+</div>
 
 ---
 *Made with ❤️ for Open Source Maintainers.*
